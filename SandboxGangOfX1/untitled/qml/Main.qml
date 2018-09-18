@@ -5,6 +5,13 @@ import "scenes"
 GameWindow {
   id: gameWindow
 
+
+  // the entity manager allows dynamic creation of entities within the game scene (e.g. bullets and coins)
+  EntityManager {
+      id: entityManager
+      entityContainer: gameScene
+  }
+
   // menu scene
   MenuScene {
     id: menuScene
@@ -20,8 +27,7 @@ GameWindow {
      onBackButtonPressed: gameWindow.state = "menu"
   }
 
-  // game scene to play a level
-
+  // game scene to play a poku game
   GameScene {
     id: gameScene
      onBackButtonPressed: gameWindow.state = "menu"
