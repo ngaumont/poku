@@ -17,7 +17,7 @@ import VPlay 2.0
      y: 30
      font.pixelSize: 30
      color: "#e9e9e9"
-     text: "No^2 et Co^2"
+     text: "Noé et Colin"
    }
 
 

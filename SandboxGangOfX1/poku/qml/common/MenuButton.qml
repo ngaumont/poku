@@ -15,6 +15,8 @@ Rectangle {
   // the vertical margin from the Text element to the Rectangle at both the top and the bottom side.
   property int paddingVertical: 5
 
+
+
   // access the text of the Text component
   property alias text: buttonText.text
 

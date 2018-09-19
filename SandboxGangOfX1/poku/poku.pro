@@ -6,7 +6,7 @@ CONFIG += v-play
 #CONFIG += v-play-live
 
 # configure the bundle identifier for iOS
-PRODUCT_IDENTIFIER = com.yourcompany.wizardEVP.Untitled
+PRODUCT_IDENTIFIER = com.gaumontProduction.poku
 
 qmlFolder.source = qml
 DEPLOYMENTFOLDERS += qmlFolder # comment for publishing
@@ -56,6 +56,7 @@ DISTFILES += \
     qml/scenes/CreditsScene.qml \
     qml/common/MenuButton.qml \
     assets/cards/Cover.qml \
-    qml/game/Card2.qml \
-    qml/game/Card2.qml \
-    qml/game/Card2.qml
+    qml/game/Deck.qml \
+    qml/game/Card.qml \
+    qml/game/GameLogic.qml \
+    qml/common/Constants.qml

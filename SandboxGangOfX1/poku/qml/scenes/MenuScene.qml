@@ -32,6 +32,7 @@ SceneBase {
     // menu
     Column {
       anchors.centerIn: parent
+      spacing: 6
       MenuButton {
         text: "Quick game"
         onClicked: quickGamePressed()
