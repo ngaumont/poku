@@ -30,8 +30,10 @@ GameWindow {
     }
     onQuickGamePressed: {
         console.log("Create local game")
-        gameScene.deck.createDeck()
+//        gameScene.deck.createDeck()
+//        gameScene.playerHands.bottomHand.startHand()
 //        multiplayer.createSinglePlayerGame()
+        gameScene.gameLogic.startNewGame()
         gameWindow.state = "game"
     }
 

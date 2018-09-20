@@ -16,9 +16,12 @@ Item {
   // array with all card entities in the game
   property var cardDeck: []
   // all card types and colors
-  property var types: ["one", "two", "three", "four", "five", "six",
-    "seven", "eight", "nine", "ten", "phoenix", "dragon"]
-  property var cardColor: ["blue", "yellow", "red", "joker", "neutral"]
+//  property var level: [1,2,3,4,5,6,7,8,9,10,11,12] // 11 and 12 are phoenix and dragon
+
+  property var levelLit: ["1", "2","3","4","5","6","7","8","9","10","P","D"] // 11 and 12 are phoenix and dragon
+
+//  property var cardColor: [0,,3,4,5] // ["blue", "yellow", "red", "joker", "neutral"]
+  property var cardColorLit: ["blue", "yellow", "red", "joker", "neutral"]
 
 
   // shuffle sound in the beginning of the game
@@ -51,33 +54,32 @@ Item {
     var order = 0
 
     // Add One with joker color
-    card = {variationType: this.types[0], cardColor: cardColor[3], hidden: true, order: order}
+    card = {level: 0, cardColor: 3, hidden: true, order: order}
     cardInfo.push(card)
     order ++
 
-    // Add Dragron with neutral color
-    card = {variationType: this.types[11], cardColor: cardColor[4], hidden: true, order: order}
-    cardInfo.push(card)
-    order ++
+    // two 1-9 value cards per color
+    for (var cardLvl = 0; cardLvl <= 9; cardLvl ++){
+      // create yellow, red and blue colored cards
+      for (var color = 0; color < 3; color ++){
+        for (var colorRep = 0; colorRep < 2; colorRep ++){
+          card = {level: cardLvl, cardColor: color, hidden: true, order: order}
+          cardInfo.push(card)
+        }
+        order ++
+      }
+    }
 
     //Add two phoenix with neutral color
     for (var i = 0; i < 2; i ++){
-        card = {variationType: this.types[10], cardColor: cardColor[4], hidden: true, order: order}
+        card = {level: 10, cardColor: 4, hidden: true, order: order}
         cardInfo.push(card)
-        order ++
     }
-
-    // create yellow, red and blue colored cards
-    for (var color = 0; color < 3; color ++){
-      // two 1-9 value cards per color
-      for (var cardType = 0; cardType <= 9; cardType ++){
-        for (var colorRep = 0; colorRep < 2; colorRep ++){
-          card = {variationType: types[cardType], cardColor: cardColor[color], hidden: true, order: order}
-          cardInfo.push(card)
-          order ++
-        }
-      }
-  }
+    order ++
+    // Add Dragron with neutral color
+    card = {level: 11, cardColor: 4, hidden: true, order: order}
+    cardInfo.push(card)
+    order ++
 }
 
 // the leader shuffles the cardInfo array in the beginning of the game
@@ -96,16 +98,14 @@ function shuffleDeck(){
   function printDeck(){
 //    shuffleSound.play()
     var id
-    console.log("There are ",cardInfo.length, " inside cardInfo.")
     for (var i = 0; i < cardInfo.length; i ++){
-      console.log(cardInfo[i].variationType,cardInfo[i].cardColor,cardInfo[i].order )
       id = entityManager.createEntityFromUrlWithProperties(
             Qt.resolvedUrl("Card.qml"), {
-              "variationType": cardInfo[i].variationType,
+              "level": cardInfo[i].level,
               "cardColor": cardInfo[i].cardColor,
-              "points": cardInfo[i].points,
               "order": cardInfo[i].order,
               "hidden": cardInfo[i].hidden,
+              "visible":false,
               "z": i,
               "state": "stack",
               "parent": deck,
@@ -115,7 +115,7 @@ function shuffleDeck(){
       offsetStack()
   }
 
-   /*  // hand out cards
+  // hand out cards
   function handOutCards(amount){
     var handOut = []
     for (var i = 0; i < (cardsInStack + i) && i < amount; i ++){
@@ -124,14 +124,11 @@ function shuffleDeck(){
       handOut.push(cardDeck[index])
       cardsInStack --
     }
-    // deactivate ONU state after drawing cards
-    passedChance()
-    // deactivate card effects after drawing a card
-    depot.effect = false
-    var userId = multiplayer.activePlayer ? multiplayer.activePlayer.userId : 0
-    multiplayer.sendMessage(gameLogic.messageSetEffect, {effect: false, userId: userId})
+
+//    var userId = multiplayer.activePlayer ? multiplayer.activePlayer.userId : 0
+//    multiplayer.sendMessage(gameLogic.messageSetEffect, {effect: false, userId: userId})
     return handOut
-  }*/
+  }
 
   // deactivate ONU state for active player after drawing cards
 //  function passedChance(){

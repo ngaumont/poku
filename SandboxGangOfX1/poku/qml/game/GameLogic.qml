@@ -554,83 +554,18 @@ Item {
   // initialize the game
   // is called from GameOverWindow when the leader restarts the game, and from GameScene when it got visible from GameScene.onVisibleChanged
   function initGame(calledFromGameOverScreen){
-//    ga.logEvent("System", "Start Game", "singlePlayer", multiplayer.singlePlayer)
-//    flurry.logEvent("System.StartGame", "singlePlayer", multiplayer.singlePlayer)
-
-    // add own event whether the game was started new from the main menu or re-started - this is only sent from the leader and not from the clients!
-    // for the client events, see System.GameRestarted and System.GameStarted in the onGameStarted handler
-    if(calledFromGameOverScreen) {
-//      ga.logEvent("User", "Restart Game", "singlePlayer", multiplayer.singlePlayer)
-//      flurry.logEvent("User.RestartGame", "singlePlayer", multiplayer.singlePlayer)
-    } else {
-//      ga.logEvent("User", "Start New Game", "singlePlayer", multiplayer.singlePlayer)
-//      flurry.logEvent("User.StartNewGame", "singlePlayer", multiplayer.singlePlayer)
-    }
-
-    if(!multiplayer.initialized && !multiplayer.singlePlayer){
-      createGame()
-    }
-
-    console.debug("multiplayer.localPlayer " + multiplayer.localPlayer)
-    //console.debug("multiplayer.localPlayer.userId " + multiplayer.localPlayer.userId)
-    console.debug("multiplayer.players.length " + multiplayer.players.length)
-    for (var i = 0; i < multiplayer.players.length; i++){
-      console.debug("multiplayer.players[" + i +"].userId " + multiplayer.players[i].userId)
-    }
-    console.debug("multiplayer.myTurn " + multiplayer.myTurn)
-
-    // reset all values at the start of the game
-    gameOver = false
-    timer.start()
-    scaleHand()
-    markValid()
-    gameScene.gameOver.visible = false
-    gameScene.leaveGame.visible = false
-    gameScene.switchName.visible = false
-    playerInfoPopup.visible = false
-    onuButton.button.enabled = false
-    chat.reset()
-    depot.reset()
 
     // initialize the players, the deck and the individual hands
     initPlayers()
     initDeck()
     initHands()
-    // reset all tags and set tag data of the leader
-    initTags()
 
-    // set the game state for all players
-    multiplayer.leaderCode(function () {
-      // NOTE: only the leader must set this to true! the clients only get initialized after the initial syncing game state message is received
-      initialized = true
-
-      // if we call this here, gameStarted is called twice. it is not needed to call, because it is already called when the room is setup
-      // thus we must not call this! forceStartGame() is called from the MatchMakingView, not from the GameScene!
-      if(calledFromGameOverScreen) {
-        // by calling restartGame, we emit a gameStarted call on the leader and the clients
-        multiplayer.restartGame()
+      for (var i = 0; i < playerHands.children.length; i++) {
+        // start the hand for each player
+        playerHands.children[i].reset()
+        playerHands.children[i].startHand()
       }
-
-      // we want to send the state to all players in this case, thus set the playerId to undefined and this case is handled in onMessageReceived so all players handle the game state syncing if playerId is undefined
-      // send game state after forceStartGame, otherwise the message will not be received by the initial players!
-      if (!multiplayer.singlePlayer) {
-        sendGameStateToPlayer(undefined)
-      }
-
-      // only the leader needs to call this
-      // lets always the leader take the first turn, otherwise the same player that ended the game before would be the first to make a turn
-      gameLogic.triggerNewTurn(multiplayer.leaderPlayer.userId)
-    })
-
-    // start by scaling the playerHand of the active localPlayer
-    scaleHand()
-    // check if the player has two or less cards left
-    closeToWin()
-
-//    ga.logEvent("User", "Restart Game", "singlePlayer", multiplayer.singlePlayer)
-//    flurry.logEvent("User.RestartGame", "singlePlayer", multiplayer.singlePlayer)
-
-    console.debug("InitGame finished!")
+      console.debug("InitGame finished!")
   }
 
   /*
@@ -711,16 +646,17 @@ Item {
 
   // the leader initializes all players and positions them at the borders of the game
   function initPlayers(){
-    multiplayer.leaderCode(function () {
-      console.debug("Leader Init Players")
-      var clientPlayers = multiplayer.players
-      var playerInfo = []
-      for (var i = 0; i < clientPlayers.length; i++) {
-        playerTags.children[i].player = clientPlayers[i]
-        playerHands.children[i].player = clientPlayers[i]
-        playerInfo[i] = clientPlayers[i].userId
-      }
-    })
+      console.log("should init Players")
+//    multiplayer.leaderCode(function () {
+//      console.debug("Leader Init Players")
+//      var clientPlayers = multiplayer.players
+//      var playerInfo = []
+//      for (var i = 0; i < clientPlayers.length; i++) {
+//        playerTags.children[i].player = clientPlayers[i]
+//        playerHands.children[i].player = clientPlayers[i]
+//        playerInfo[i] = clientPlayers[i].userId
+//      }
+//    })
   }
 
   // find player by userId
@@ -772,20 +708,23 @@ Item {
 
   // the leader creates the deck and depot
   function initDeck(){
-    multiplayer.leaderCode(function () {
-      deck.createDeck()
-      depot.createDepot()
-    })
+//    multiplayer.leaderCode(function () {
+//      deck.createDeck()
+//      depot.createDepot()
+//    })
+     deck.createDeck()
+     console.log("Should init Deck....")
   }
 
   // the leader hands out the cards to the other players
   function initHands(){
-    multiplayer.leaderCode(function () {
-      for (var i = 0; i < playerHands.children.length; i++) {
-        // start the hand for each player
-        playerHands.children[i].startHand()
-      }
-    })
+//    multiplayer.leaderCode(function () {
+//      for (var i = 0; i < playerHands.children.length; i++) {
+//        // start the hand for each player
+//        playerHands.children[i].startHand()
+//      }
+//    })
+      console.log("Should init all Hand.")
   }
 
   // sync all hands according to the leader
@@ -805,12 +744,12 @@ Item {
   // reset all tags and init the tag for the local player
   function initTags(){
     console.debug("initTags()")
-    for (var i = 0; i < playerTags.children.length; i++){
-      playerTags.children[i].initTag()
-      if (playerHands.children[i].player && playerHands.children[i].player.userId == multiplayer.localPlayer.userId){
-        playerTags.children[i].getPlayerData(true)
-      }
-    }
+//    for (var i = 0; i < playerTags.children.length; i++){
+//      playerTags.children[i].initTag()
+//      if (playerHands.children[i].player && playerHands.children[i].player.userId == multiplayer.localPlayer.userId){
+//        playerTags.children[i].getPlayerData(true)
+//      }
+//    }
   }
 
   // draw the specified amount of cards
@@ -1047,7 +986,7 @@ Item {
   }
 
   function startNewGame(){
-    restartGameTimer.stop()
+//    restartGameTimer.stop()
     // the true causes a gameStarted to be emitted
     gameLogic.initGame(true)
   }

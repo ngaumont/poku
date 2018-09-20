@@ -2,6 +2,7 @@ import VPlay 2.0
 import QtQuick 2.0
 import "../common"
 import "../game"
+import "../interface"
 
 SceneBase {
   id:gameScene
@@ -94,45 +95,41 @@ SceneBase {
     id: playerTags
     anchors.fill: gameWindowAnchorItem
 
-    Text {
+    PlayerTag {
       anchors.bottom: parent.bottom
-      anchors.bottomMargin: 5
+      anchors.bottomMargin: 40
       anchors.right: parent.right
-      anchors.rightMargin: 10
-      text: "South"
-      color: "black"
-      font.pixelSize: 28
+      anchors.rightMargin: 45
+      name: "South"
+      player:0
     }
 
-    Text {
+    PlayerTag {
       anchors.left: parent.left
-      anchors.leftMargin: 10
-      anchors.verticalCenter: parent.verticalCenter
-      anchors.topMargin: 50
-      text: "East"
-      color: "black"
-      font.pixelSize: 28
+      anchors.leftMargin: 30
+      anchors.top: parent.top
+      anchors.topMargin: 125
+      name: "East"
+      player:1
     }
 
-    Text {
+    PlayerTag {
       anchors.top: parent.top
       anchors.topMargin: 10
       anchors.left: parent.left
-      anchors.leftMargin: 10
-      text: "North"
-      color: "black"
-      font.pixelSize: 28
+      anchors.leftMargin: 40
+      name: "North"
+      player:2
     }
 
-    Text {
+    PlayerTag {
       id: rightPlayerTag
       anchors.right: parent.right
-      anchors.rightMargin: 5
+      anchors.rightMargin: 40
       anchors.top: parent.top
       anchors.topMargin: 10
-      text: "West"
-      color: "black"
-      font.pixelSize: 28
+      name: "West"
+      player:3
     }
   }
 
@@ -142,52 +139,28 @@ SceneBase {
     id: playerHands
     anchors.fill: gameWindowAnchorItem
 
-    Text {
+    PlayerHand {
       id: bottomHand
-      anchors.bottom: parent.bottom
-      anchors.right: parent.right
-      z: 100
-      text: "s"
+      player:0
     }
 
-    Text {
+    PlayerHand {
       id: leftHand
-      anchors.left: parent.left
-      anchors.leftMargin: -width/2 + height/2
-      anchors.verticalCenter: parent.verticalCenter
-      rotation: 90
-      text: "e"
+      player:1
+      visible:false
     }
 
-    Text {
+    PlayerHand {
       id: topHand
-      anchors.top: parent.top
-      anchors.left: parent.left
-      rotation: 180
-      text: "n"
+      player:2
+      visible:false
     }
 
-    Text {
+    PlayerHand {
       id: rightHand
-      anchors.right: parent.right
-      anchors.rightMargin: -width/2 + height/2
-      anchors.top: parent.top
-      rotation: 270
-      text: "w"
+      player:3
+      visible:false
     }
   }
 
-//  Card2 {
-//  }
-//  Card2 {
-//     anchors.bottom: gameScene.gameWindowAnchorItem.bottom
-//  }
-//  Card2 {
-//     anchors.bottom: gameScene.gameWindowAnchorItem.bottom
-//     anchors.right: gameScene.gameWindowAnchorItem.right
-//  }
-
-//  Card2 {
-//     anchors.right: gameScene.gameWindowAnchorItem.right
-//  }
 }
