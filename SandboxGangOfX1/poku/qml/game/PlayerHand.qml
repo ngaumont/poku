@@ -160,12 +160,11 @@ Item {
 //  }
 
   // unmark all cards in hand
-//  function unmark(){
-//    for (var i = 0; i < hand.length; i ++){
-//      hand[i].glowImage.visible = false
-//      hand[i].updateCardImage()
-//    }
-//  }
+  function unmark(){
+    for (var i = 0; i < hand.length; i ++){
+      hand[i].updateCardImage()
+    }
+  }
 
   // scale the whole playerHand of the active localPlayer with a zoom factor
 //  function scaleHand(scale){

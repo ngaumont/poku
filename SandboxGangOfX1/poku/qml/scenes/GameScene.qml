@@ -67,7 +67,7 @@ SceneBase {
   // background
   Rectangle {
     anchors.fill: parent.gameWindowAnchorItem
-    color: "#dd94da"
+    color: "#eae3ce"
   }
   MenuButton {
      text: "Back"
@@ -142,6 +142,7 @@ SceneBase {
     PlayerHand {
       id: bottomHand
       player:0
+      visible: true
     }
 
     PlayerHand {

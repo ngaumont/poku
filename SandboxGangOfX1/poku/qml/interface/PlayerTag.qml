@@ -36,13 +36,13 @@ Item {
           console.log(parent.text)
             for (var i = 0; i < playerHands.children.length; i++) {
               // start the hand for each player
+              playerHands.children[i].visible = false
+
               if(playerHands.children[i].player == player){
-                  playerHands.children[i].consoleDisplay()
+                  playerHands.children[i].visible = true
               }
             }
         }
       }
     }
-
-
 }

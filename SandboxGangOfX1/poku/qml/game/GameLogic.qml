@@ -564,7 +564,9 @@ Item {
         // start the hand for each player
         playerHands.children[i].reset()
         playerHands.children[i].startHand()
+        playerHands.children[i].unmark()
       }
+
       console.debug("InitGame finished!")
   }
 
