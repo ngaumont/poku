@@ -109,7 +109,7 @@ SceneBase {
       anchors.leftMargin: 30
       anchors.top: parent.top
       anchors.topMargin: 125
-      name: "East"
+      name: "West"
       player:1
     }
 
@@ -128,7 +128,7 @@ SceneBase {
       anchors.rightMargin: 40
       anchors.top: parent.top
       anchors.topMargin: 10
-      name: "West"
+      name: "East"
       player:3
     }
   }
