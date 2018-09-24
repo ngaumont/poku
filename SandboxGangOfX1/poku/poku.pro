@@ -61,4 +61,5 @@ DISTFILES += \
     qml/game/GameLogic.qml \
     qml/common/Constants.qml \
     qml/game/PlayerHand.qml \
-    qml/interface/PlayerTag.qml
+    qml/interface/PlayerTag.qml \
+    qml/game/Depot.qml

@@ -56,6 +56,8 @@ EntityBase {
         anchors.fill: parent
         onClicked: {
           console.log(card.literalRepresentation())
+          console.log(entityId)
+          gameScene.cardSelected(entityId)
         }
       }
       Text {

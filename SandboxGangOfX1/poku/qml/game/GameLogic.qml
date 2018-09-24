@@ -315,39 +315,15 @@ Item {
 
     // the player selected a card
     onCardSelected: {
-      // if the selected card is from the stack, signal it
-      if (colorPicker.chosingColor) return
-      if (entityManager.getEntityById(cardId).state === "stack"){
-        stackSelected()
-        // deposit the valid card
-      } else if (entityManager.getEntityById(cardId).state === "player"){
-        if (multiplayer.myTurn && !depot.skipped && !acted) {
-          // not relevant for google analytics, causes to exceed the free limit
-          //ga.logEvent("User", "Card Selected", "singlePlayer", multiplayer.singlePlayer)
-//          flurry.logEvent("User.CardSelected", "singlePlayer", multiplayer.singlePlayer)
 
-          if (depot.validCard(cardId)){
-            // the user can act only once unless the selected card was a wild card
-            // this allows the user to chose a color as well
-            var currentType = entityManager.getEntityById(cardId).variationType
-            if (currentType !== "wild" && currentType !== "wild4") acted = true
+        if (depot.validCard(cardId)){
 
             depositCard(cardId, multiplayer.localPlayer.userId)
-            multiplayer.sendMessage(messageMoveCardsDepot, {cardId: cardId, userId: multiplayer.localPlayer.userId})
-
-            // the active player increases the drawAmount after playing a draw2 or wild4 card
-            if (depot.current.variationType === "draw2") depot.draw(2)
-            if (depot.current.variationType === "wild4") depot.draw(4)
-
-            // end the turn unless the connected player has to pick a color
-            if (depot.current.cardColor !== "black" && multiplayer.myTurn){
-              endTurn()
-            }
-          }
         }
-      }
+
     }
   }
+
 
   // sync deck with leader and set up the game
   function syncDeck(cardInfo){
@@ -372,7 +348,7 @@ Item {
   // deposit the selected card
   function depositCard(cardId, userId){
     // unmark all highlighted cards
-    unmark()
+    //unmark()
     // scale down the active localPlayer playerHand
     scaleHand(1.0)
     for (var i = 0; i < playerHands.children.length; i++) {
@@ -383,35 +359,7 @@ Item {
         playerHands.children[i].removeFromHand(cardId)
         depot.depositCard(cardId)
 
-        if (depot.current.variationType === "reverse"){
-          multiplayer.leaderCode(function() {
-            depot.reverse()
-          })
-        }
 
-        // if the card was a wild or wild4 card
-        if (depot.current.cardColor === "black"){
-          // show the colorPicker for the active connected player
-          if (multiplayer.activePlayer && multiplayer.activePlayer.connected && remainingTime > 0){
-            if (multiplayer.myTurn){
-              colorPicker.visible = true
-            }
-            colorPicker.chosingColor = true
-          }else{
-            // leader choses a random color for disconnected players
-            multiplayer.leaderCode(function() {
-              if (!multiplayer.activePlayer || !multiplayer.activePlayer.connected) {
-                var color = colorPicker.randomColor()
-                pickColor(color)
-                multiplayer.sendMessage(messagePickColor, {color: color, userId: userId})
-              }
-            })
-          }
-        }
-        // uncover the card for disconnected players after chosing the color
-        if (!multiplayer.activePlayer || !multiplayer.activePlayer.connected){
-          depot.current.hidden = false
-        }
       }
     }
   }

@@ -8,8 +8,11 @@ SceneBase {
   id:gameScene
 
   property alias deck: deck
-//  property alias depot: depot
+  property alias depot: depot
   property alias gameLogic: gameLogic
+
+  // game signals
+  signal cardSelected(var cardId)
 
   MouseArea {
       anchors.fill: gameScene.gameWindowAnchorItem // check full game window
@@ -89,7 +92,10 @@ SceneBase {
     id: deck
   }
 
+  Depot {
+    id: depot
 
+  }
   // the playerTags for each playerHand
   Item {
     id: playerTags
