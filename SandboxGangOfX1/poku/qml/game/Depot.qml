@@ -3,8 +3,10 @@ import VPlay 2.0
 
 Item {
   id: depot
-  width: 82
-  height: 134
+  width: 60
+  height: 60
+  x: 100
+  y: 200
 
 
   // current card on top of the depot for finding a match
@@ -36,8 +38,8 @@ Item {
 
     // move the card to the depot and vary the position and rotation
     var rotation = randomIntFromInterval(-5, 5)
-    var xOffset = randomIntFromInterval(-5, 5)
-    var yOffset = randomIntFromInterval(-5, 5)
+    var xOffset = randomIntFromInterval(-20, 20)
+    var yOffset = randomIntFromInterval(-20, 20)
     card.rotation = rotation
     card.x = xOffset
     card.y = yOffset

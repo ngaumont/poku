@@ -94,6 +94,9 @@ SceneBase {
 
   Depot {
     id: depot
+    anchors.fill: gameWindowAnchorItem
+    anchors.horizontalCenter: gameWindowAnchorItem.horizontalCenter
+    anchors.bottom: gameWindowAnchorItem.bottom
 
   }
   // the playerTags for each playerHand

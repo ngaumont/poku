@@ -97,4 +97,24 @@ EntityBase {
       cardImage.source = "../../assets/cards/" + base_image
     }
   }
+  Behavior on x {
+
+             NumberAnimation {
+                 //This specifies how long the animation takes
+                 duration: 600
+                 //This selects an easing curve to interpolate with, the default is Easing.Linear
+                 easing.type: Easing.OutBounce
+             }
+         }
+  Behavior on y {
+
+             NumberAnimation {
+                 //This specifies how long the animation takes
+                 duration: 600
+                 //This selects an easing curve to interpolate with, the default is Easing.Linear
+                 easing.type: Easing.OutBounce
+             }
+         }
+
+
 }
