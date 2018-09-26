@@ -43,6 +43,8 @@ EntityBase {
     return gameScene.deck.levelLit[this.level] + " " + gameScene.deck.cardColorLit[this.cardColor]
   }
 
+
+
   Image {
     id: cardImage
     anchors.fill: parent
@@ -66,6 +68,11 @@ EntityBase {
           text: gameScene.deck.levelLit[level]
           anchors.horizontalCenter: parent.horizontalCenter
           anchors.verticalCenter: parent.verticalCenter
+      }
+      Rectangle {
+        anchors.fill : parent
+        color : "white"
+        z : -1
       }
   }
   // update the card image
@@ -95,24 +102,25 @@ EntityBase {
       }
       cardValue.text = gameScene.deck.levelLit[level]
       cardImage.source = "../../assets/cards/" + base_image
+
     }
   }
   Behavior on x {
 
              NumberAnimation {
                  //This specifies how long the animation takes
-                 duration: 600
+                 duration: 500
                  //This selects an easing curve to interpolate with, the default is Easing.Linear
-                 easing.type: Easing.OutBounce
+                 //easing.type: Easing.OutBounce
              }
          }
   Behavior on y {
 
              NumberAnimation {
                  //This specifies how long the animation takes
-                 duration: 600
+                 duration: 500
                  //This selects an easing curve to interpolate with, the default is Easing.Linear
-                 easing.type: Easing.OutBounce
+                 //easing.type: Easing.OutBounce
              }
          }
 

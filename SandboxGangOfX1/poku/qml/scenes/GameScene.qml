@@ -94,9 +94,18 @@ SceneBase {
 
   Depot {
     id: depot
-    anchors.fill: gameWindowAnchorItem
-    anchors.horizontalCenter: gameWindowAnchorItem.horizontalCenter
-    anchors.bottom: gameWindowAnchorItem.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter:  parent.verticalCenter
+    anchors.verticalCenterOffset: -100
+    //Rectangle {
+    //  width : 120
+    //  height: 100
+    //  anchors.horizontalCenter: parent.horizontalCenter
+    //  anchors.verticalCenter: parent.verticalCenter
+    //  border.color : "black"
+    //  border.width: 2
+    //  color: "transparent"
+    //}
 
   }
   // the playerTags for each playerHand

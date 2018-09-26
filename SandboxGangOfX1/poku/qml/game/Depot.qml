@@ -3,10 +3,7 @@ import VPlay 2.0
 
 Item {
   id: depot
-  width: 60
-  height: 60
-  x: 100
-  y: 200
+
 
 
   // current card on top of the depot for finding a match
@@ -41,8 +38,8 @@ Item {
     var xOffset = randomIntFromInterval(-20, 20)
     var yOffset = randomIntFromInterval(-20, 20)
     card.rotation = rotation
-    card.x = xOffset
-    card.y = yOffset
+    card.x = depot.x+ xOffset
+    card.y = depot.y + yOffset
 
     // the first card starts with z 0, the others get placed on top
     if (!current) {
