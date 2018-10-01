@@ -13,6 +13,7 @@ SceneBase {
 
   // game signals
   signal cardSelected(var cardId)
+  signal cardsPlayed()
 
   MouseArea {
       anchors.fill: gameScene.gameWindowAnchorItem // check full game window
@@ -60,6 +61,7 @@ SceneBase {
                    console.log("Swipe Down")
                 else
                    console.log("Swipe up")
+                   gameScene.cardsPlayed()
                 touch = false
              }
          }
@@ -97,17 +99,9 @@ SceneBase {
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.verticalCenter:  parent.verticalCenter
     anchors.verticalCenterOffset: -100
-    //Rectangle {
-    //  width : 120
-    //  height: 100
-    //  anchors.horizontalCenter: parent.horizontalCenter
-    //  anchors.verticalCenter: parent.verticalCenter
-    //  border.color : "black"
-    //  border.width: 2
-    //  color: "transparent"
-    //}
-
   }
+
+
   // the playerTags for each playerHand
   Item {
     id: playerTags

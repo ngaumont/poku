@@ -15,6 +15,7 @@ EntityBase {
   // original card size for zoom
   property int originalWidth: 44
   property int originalHeight: 44
+  property bool isSelected: false
 
 
   property int level: 0
@@ -43,7 +44,16 @@ EntityBase {
     return gameScene.deck.levelLit[this.level] + " " + gameScene.deck.cardColorLit[this.cardColor]
   }
 
-
+  // glow image highlights a valid card
+  Image {
+    id: glowImage
+    anchors.centerIn: parent
+    width: parent.width * 1.3
+    height: parent.height * 1.3
+    source: "../../assets/cards/glow.png"
+    visible: parent.isSelected
+    smooth: true
+  }
 
   Image {
     id: cardImage

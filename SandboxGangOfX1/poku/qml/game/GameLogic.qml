@@ -313,17 +313,35 @@ Item {
       }
     }
 
-    // the player selected a card
+    // the player selected or deselected a card
     onCardSelected: {
-
-        if (depot.validCard(cardId)){
-
-            depositCard(cardId, multiplayer.localPlayer.userId)
-        }
-
+        var card = entityManager.getEntityById(cardId)
+        card.isSelected = !card.isSelected
     }
-  }
 
+    onCardsPlayed: {
+        var cards = entityManager.getEntityArrayByType("card")
+        var selectedCards = []
+        for (var i = 0; i < cards.length; i++) {
+            if (cards[i].isSelected){
+                selectedCards.push(cards[i])
+                console.debug(cards[i].literalRepresentation())
+                console.debug(cards[i].entityId)
+
+            }
+//        if (depot.validCard(cardId)){
+//
+//            depositCard(cardId, multiplayer.localPlayer.userId)
+//        }
+
+        }
+        for (var i = 0; i < selectedCards.length; i++) {
+            selectedCards[i].isSelected = false
+            depositCard(selectedCards[i].entityId, multiplayer.localPlayer.userId)
+            }
+
+  }
+}
 
   // sync deck with leader and set up the game
   function syncDeck(cardInfo){
