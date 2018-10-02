@@ -320,28 +320,94 @@ Item {
     }
 
     onCardsPlayed: {
-        var cards = entityManager.getEntityArrayByType("card")
-        var selectedCards = []
-        for (var i = 0; i < cards.length; i++) {
-            if (cards[i].isSelected){
-                selectedCards.push(cards[i])
-                console.debug(cards[i].literalRepresentation())
-                console.debug(cards[i].entityId)
 
-            }
 //        if (depot.validCard(cardId)){
 //
 //            depositCard(cardId, multiplayer.localPlayer.userId)
 //        }
 
-        }
-        for (var i = 0; i < selectedCards.length; i++) {
-            selectedCards[i].isSelected = false
-            depositCard(selectedCards[i].entityId, multiplayer.localPlayer.userId)
-            }
+
+        playCards(getSelectedCards(), multiplayer.localPlayer.userId)
 
   }
 }
+
+  function getCardCombination(cards)
+  {
+     // 0 crap
+     // 1 single card
+     // 2
+     if (cards.length == 0){return "crap"}
+     if (cards.length ==1) {return "single"}
+
+     var areCardsNPair = true
+     var pairLevel = cards[0].level
+     for (var i = 0; i < cards.length; i++) {
+          if (cards[i].level != pairLevel){
+            areCardsNPair = false
+            break
+          }
+     }
+
+     if (cards.length ==2 && areCardsNPair) {return "double"}
+
+     if (cards.length ==3 && areCardsNPair) {return "triple"}
+
+     //Gang of four
+     if (cards.length >4 && areCardsNPair) {return "carre"}
+
+     return "crap"
+  }
+
+  function canCardBePlayed(selectedCards,currentDepot){
+      console.debug(depot.current)
+      console.debug(selectedCards)
+      console.debug(selectedCards.length)
+      var cardCombination = getCardCombination(selectedCards)
+
+      // to play, one need a valid combination: single, double ...
+      if (cardCombination=="crap"){return false}
+
+      //The first player to play can place any valid combination if depot is empty
+      if (currentDepot == null) return true
+
+      //If cards have already been played, we have to play the same combination type or a carre
+      if (cardCombination == getCardCombination(currentDepot)){
+          // need to compare cards 1 by one
+          return true
+          // else return false
+      }
+
+      //if we arrive here, we know for sure that NOT both cards and depot are care
+      if (cardCombination == "carre") {return true}
+  }
+
+  function getSelectedCards()
+  {
+      var cards = entityManager.getEntityArrayByType("card")
+      var selectedCards = []
+      console.debug("Card(s) played:")
+      for (var i = 0; i < cards.length; i++) {
+          if (cards[i].isSelected){
+              selectedCards.push(cards[i])
+              console.debug(cards[i].literalRepresentation())
+          }
+        }
+      return selectedCards
+  }
+
+  function playCards(selectedCards, userId){
+      if (canCardBePlayed(selectedCards,depot.current)){
+
+          for (var i = 0; i < selectedCards.length; i++) {
+              selectedCards[i].isSelected = false
+              depositCard(selectedCards[i].entityId, multiplayer.localPlayer.userId)
+
+              }
+          depot.current = selectedCards
+      }
+
+  }
 
   // sync deck with leader and set up the game
   function syncDeck(cardInfo){

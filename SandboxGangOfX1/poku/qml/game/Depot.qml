@@ -7,7 +7,7 @@ Item {
 
 
   // current card on top of the depot for finding a match
-  property var current
+  property var current: null
   // whether the active player is skipped or not
   property bool skipped: false
   // the current turn direction
