@@ -339,7 +339,7 @@ Item {
      // 2
 
 
-     if (cards == null || cards.length == 0){return ["crap"]}
+     if (cards == null || cards.length == 0){return ["empty"]}
 
      cards.sort(function(a, b) {
            return a.order - b.order
@@ -362,11 +362,11 @@ Item {
      if (cards.length ==3 && areCardsNPair) {return ["triple"]}
 
      //Gang of fours
-     if (cards.length >4 && areCardsNPair) {return ["carre"],cards.length}
+     if (cards.length >=4 && areCardsNPair) {return ["carre",cards.length]}
 
      if (cards.length == 5)
      {
-        if (cards[4].level <11 && cards[4].level ==cards[3].level+1 && cards[3].level ==cards[2].level+1 &&cards[2].level ==cards[1].level+1 &&cards[1].level ==cards[0].level+1 &&
+        if (cards[4].level <10 && cards[4].level ==cards[3].level+1 && cards[3].level ==cards[2].level+1 &&cards[2].level ==cards[1].level+1 &&cards[1].level ==cards[0].level+1 &&
                 cards[4].cardColor == cards[3].cardColor && cards[3].cardColor == cards[2].cardColor && cards[2].cardColor == cards[1].cardColor && cards[1].cardColor == cards[0].cardColor)
                { return ["Five", 5 ]}
         if ((cards[4].level ==cards[2].level && cards[1].level ==cards[0].level) ||
@@ -376,7 +376,7 @@ Item {
         {
                 return ["Five", 3 ]
         }
-        if (cards[4].level <11 && cards[4].level ==cards[3].level+1 && cards[3].level ==cards[2].level+1 &&cards[2].level ==cards[1].level+1 &&cards[1].level ==cards[0].level+1)
+        if (cards[4].level <10 && cards[4].level ==cards[3].level+1 && cards[3].level ==cards[2].level+1 &&cards[2].level ==cards[1].level+1 &&cards[1].level ==cards[0].level+1)
         {
                 return ["Five", 2 ]
         }
@@ -393,7 +393,7 @@ Item {
       var cardCombination = getCardCombinationType(selectedCards)
 
       // to play, one need a valid combination: single, double ...
-      if (cardCombination[0]=="crap"){return false}
+      if (cardCombination[0]=="crap"||cardCombination[0]=="empty"){return false}
 
       var depotCombination = getCardCombinationType(currentDepot)
       console.debug(cardCombination.toString() + " vs " + depotCombination.toString())

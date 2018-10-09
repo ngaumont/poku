@@ -53,13 +53,22 @@ Item {
     var card
     var order = 0
 
+    // create yellow, red and blue colored cards of level 1
+      for (var color = 0; color < 3; color ++){
+        for (var colorRep = 0; colorRep < 2; colorRep ++){
+          card = {level: 0, cardColor: color, hidden: true, order: order}
+          cardInfo.push(card)
+        }
+        order ++
+      }
+
     // Add One with joker color
     card = {level: 0, cardColor: 3, hidden: true, order: order}
     cardInfo.push(card)
     order ++
 
     // two 1-9 value cards per color
-    for (var cardLvl = 0; cardLvl <= 9; cardLvl ++){
+    for (var cardLvl = 1; cardLvl <= 9; cardLvl ++){
       // create yellow, red and blue colored cards
       for (var color = 0; color < 3; color ++){
         for (var colorRep = 0; colorRep < 2; colorRep ++){
