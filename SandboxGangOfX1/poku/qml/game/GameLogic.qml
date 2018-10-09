@@ -332,13 +332,21 @@ Item {
   }
 }
 
-  function getCardCombination(cards)
+  function getCardCombinationType(cards)
   {
      // 0 crap
      // 1 single card
      // 2
-     if (cards.length == 0){return "crap"}
-     if (cards.length ==1) {return "single"}
+
+
+     if (cards == null || cards.length == 0){return ["crap"]}
+
+     cards.sort(function(a, b) {
+           return a.order - b.order
+         })
+
+
+     if (cards.length ==1) {return ["single"]}
 
      var areCardsNPair = true
      var pairLevel = cards[0].level
@@ -349,33 +357,77 @@ Item {
           }
      }
 
-     if (cards.length ==2 && areCardsNPair) {return "double"}
+     if (cards.length ==2 && areCardsNPair) {return ["double"]}
 
-     if (cards.length ==3 && areCardsNPair) {return "triple"}
+     if (cards.length ==3 && areCardsNPair) {return ["triple"]}
 
-     //Gang of four
-     if (cards.length >4 && areCardsNPair) {return "carre"}
+     //Gang of fours
+     if (cards.length >4 && areCardsNPair) {return ["carre"],cards.length}
+
+     if (cards.length == 5)
+     {
+        if (cards[4].level <11 && cards[4].level ==cards[3].level+1 && cards[3].level ==cards[2].level+1 &&cards[2].level ==cards[1].level+1 &&cards[1].level ==cards[0].level+1 &&
+                cards[4].cardColor == cards[3].cardColor && cards[3].cardColor == cards[2].cardColor && cards[2].cardColor == cards[1].cardColor && cards[1].cardColor == cards[0].cardColor)
+               { return ["Five", 5 ]}
+        if ((cards[4].level ==cards[2].level && cards[1].level ==cards[0].level) ||
+                (cards[4].level ==cards[3].level && cards[2].level ==cards[0].level))
+               { return ["Five", 4 , cards[2].level]}
+        if (cards[4].cardColor == cards[3].cardColor && cards[3].cardColor == cards[2].cardColor && cards[2].cardColor == cards[1].cardColor && cards[1].cardColor == cards[0].cardColor)
+        {
+                return ["Five", 3 ]
+        }
+        if (cards[4].level <11 && cards[4].level ==cards[3].level+1 && cards[3].level ==cards[2].level+1 &&cards[2].level ==cards[1].level+1 &&cards[1].level ==cards[0].level+1)
+        {
+                return ["Five", 2 ]
+        }
+        return "crap"
+     }
 
      return "crap"
   }
 
   function canCardBePlayed(selectedCards,currentDepot){
-      console.debug(depot.current)
-      console.debug(selectedCards)
-      console.debug(selectedCards.length)
-      var cardCombination = getCardCombination(selectedCards)
+      //console.debug(depot.current)
+      //console.debug(selectedCards)
+      //console.debug(selectedCards.length)
+      var cardCombination = getCardCombinationType(selectedCards)
 
       // to play, one need a valid combination: single, double ...
-      if (cardCombination=="crap"){return false}
+      if (cardCombination[0]=="crap"){return false}
+
+      var depotCombination = getCardCombinationType(currentDepot)
+      console.debug(cardCombination.toString() + " vs " + depotCombination.toString())
 
       //The first player to play can place any valid combination if depot is empty
       if (currentDepot == null) return true
 
       //If cards have already been played, we have to play the same combination type or a carre
-      if (cardCombination == getCardCombination(currentDepot)){
-          // need to compare cards 1 by one
-          return true
-          // else return false
+      if (cardCombination[0] == depotCombination[0]){
+          if (cardCombination[0] == "five")
+          {
+            //quint<flush<full<quint flush
+            if (cardCombination[1] > depotCombination[1]){return true}
+            if (cardCombination[1] < depotCombination[1]){return false}
+            //level of triple of full is what matters
+            if (cardCombination[2]>depotCombination[2]) {return true}
+            if (cardCombination[2]<depotCombination[2]) {return false}
+          }
+          if (cardCombination[0] == "carre")
+          {// length of carre is what matters
+            if (cardCombination[1] > depotCombination[1]){return true}
+            if (cardCombination[1] < depotCombination[1]){return false}
+          }
+
+          //else need to compare cards 1 by one
+          for (var i = selectedCards.length-1; i >= 0; i++) {
+              console.debug(selectedCards[i])
+              if (selectedCards[i].level > currentDepot[i].level){return true}
+              if (selectedCards[i].level < currentDepot[i].level){return false}
+              if (selectedCards[i].cardColor> currentDepot[i].cardColor){return true}
+              if (selectedCards[i].cardColor< currentDepot[i].cardColor){return false}
+          }
+          //Same cards being played
+          return false
       }
 
       //if we arrive here, we know for sure that NOT both cards and depot are care
